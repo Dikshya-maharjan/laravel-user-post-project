@@ -8,37 +8,63 @@ use App\Models\Course;
 
 class StudentController extends Controller
 {
-    // show form
+    // SHOW CREATE FORM
     public function create()
     {
         $courses = Course::all();
         return view('student.create', compact('courses'));
     }
 
-    // store student + attach courses
+    // STORE STUDENT + COURSES
     public function store(Request $request)
     {
         $student = Student::create([
             'name' => $request->name
         ]);
 
-        // attach selected courses
         $student->courses()->attach($request->course_ids);
 
         return redirect('/students');
     }
 
-    // show all
+    // SHOW ALL STUDENTS
     public function index()
     {
         $students = Student::with('courses')->get();
         return view('student.index', compact('students'));
     }
-    //edit form
-    public function edit($id){
-        $student=Student::with('courses')->get();
-        $courses=Course::all();
-        return view('student.edit',compact('student','courses'));
 
+    // EDIT FORM
+    public function edit($id)
+    {
+        $student = Student::with('courses')->findOrFail($id);
+        $courses = Course::all();
+
+        return view('student.edit', compact('student', 'courses'));
+    }
+
+    // UPDATE STUDENT + COURSES
+    public function update(Request $request, $id)
+    {
+        $student = Student::findOrFail($id);
+
+        $student->update([
+            'name' => $request->name
+        ]);
+
+        $student->courses()->sync($request->course_ids);
+
+        return redirect('/students');
+    }
+
+    // DELETE STUDENT
+    public function destroy($id)
+    {
+        $student = Student::findOrFail($id);
+
+        $student->courses()->detach();
+        $student->delete();
+
+        return redirect('/students');
     }
 }
