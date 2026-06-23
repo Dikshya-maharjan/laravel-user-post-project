@@ -12,6 +12,7 @@ class CollectionController extends Controller
             ['name'=>'Ram'],
             ['name'=>'Sita']
         ]);
+        $users=$users->pluck('name');
         return view('collection.users',compact('users'));
     }
     public function filter(){
