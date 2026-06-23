@@ -15,7 +15,7 @@ class StudentController extends Controller
         return view('student.create', compact('courses'));
     }
 
-    // STORE STUDENT + COURSES
+    // STORE STUDENT and COURSES
     public function store(Request $request)
     {
         $student = Student::create([
@@ -43,7 +43,7 @@ class StudentController extends Controller
         return view('student.edit', compact('student', 'courses'));
     }
 
-    // UPDATE STUDENT + COURSES
+    // UPDATE STUDENT and COURSES
     public function update(Request $request, $id)
     {
         $student = Student::findOrFail($id);
@@ -51,7 +51,7 @@ class StudentController extends Controller
         $student->update([
             'name' => $request->name
         ]);
-
+//synce use to manage and update M:M db relationships
         $student->courses()->sync($request->course_ids);
 
         return redirect('/students');
