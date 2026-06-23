@@ -27,4 +27,12 @@ $users = collect([
     });
 return view('collection.users',compact('users'));
     }
+    public function map(){
+        $numbers=collect([1,2,3,4,5]);
+          
+        $result=$numbers->map(function ($item){
+            return $item*2;
+        });
+        return view('collection.numbers',compact('result'));
+    }
 }
