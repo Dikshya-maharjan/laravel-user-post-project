@@ -54,3 +54,10 @@ use App\Http\Controllers\CourseController;
 Route::get('/course/create', [CourseController::class, 'create']);
 Route::post('/course/store', [CourseController::class, 'store']);
 Route::get('/courses', [CourseController::class, 'index']);
+
+//collection
+
+use App\Http\Controllers\CollectionController;
+Route::get('/users',[CollectionController::class,'index']);
+Route::get('/users',[CollectionController::class,'filter']);
+Route::get('/users/map',[CollectionController::class,'map']);
