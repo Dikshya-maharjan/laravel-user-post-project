@@ -2,4 +2,4 @@
     @foreach($result as $item)
     <p>{{$item}}</p>
     @endforeach
-<a href="/users">Back</a>
+<a href="/users/filter">Back</a>
