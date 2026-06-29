@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -27,4 +28,23 @@ class PostController extends Controller
             $users=User::all();
             return view('user.index',compact('users'));
     }
+     public function groupPosts()
+    {
+        $posts = collect([
+            ['title' => 'Laravel Basics', 'user_id' => 1],
+            ['title' => 'PHP OOP', 'user_id' => 1],
+            ['title' => 'React Guide', 'user_id' => 2],
+            ['title' => 'Vue Tutorial', 'user_id' => 2],
+            ['title' => 'Java Notes', 'user_id' => 3],
+         ['title' => 'Java Notes', 'person_id' => 3],
+
+        ]);
+
+        $result = $posts->groupBy('person_id');
+
+        return view('collection.posts', compact('result'));
     }
+
+
+}
+    
