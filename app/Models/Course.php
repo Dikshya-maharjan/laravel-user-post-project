@@ -10,7 +10,10 @@ class Course extends Model
     //
     protected $fillable=['name'];
     public function student(){
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class,
+        'course_student',
+        'course_id',
+        'student_id');
     }
 
 }
