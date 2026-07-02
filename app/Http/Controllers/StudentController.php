@@ -33,6 +33,7 @@ class StudentController extends Controller
         $students = Student::with('courses')->get();
         return view('student.index', compact('students'));
     }
+   
 
     // EDIT FORM
     public function edit($id)
