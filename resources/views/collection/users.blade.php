@@ -4,5 +4,7 @@
     <p>{{ $user['name'] }}</p>
     <p>{{$user['active']}}</p>
 @endforeach
-<a href="users/map">Click here for map method</a>
+<a href="map">Click here for map method</a><br>
+<a href="first">Click here for first method</a><br>
+<a href="group">Click here for groupBy method</a><br>
 
