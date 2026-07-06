@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Signup;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class SignupController extends Controller
 {
@@ -25,6 +26,8 @@ class SignupController extends Controller
                 'password'=>Hash::make($request->password),//converting pw into hash code
     
             ]);
+            Auth::login($signup);
+            $request->session()->regenerate();
             return response()->json([
                 'success'=>true,
                 'message'=>"User created successfully",
