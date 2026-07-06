@@ -47,15 +47,21 @@ class CourseController extends Controller
         response: 200,
         description: "Course created"
     )]
-    public function store(Request $request){
-        $course=Course::create([
-            'name'=>$request->name,
-        ]);
-        return response()->json([
-            'message'=>"Course created successfully",
-            'course'=>$course,
-        ]);
-    }
+  public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    $course = Course::create([
+        'name' => $request->name,
+    ]);
+
+    return response()->json([
+        'message' => 'Course created successfully',
+        'course' => $course,
+    ], 201);
+}
         #[OA\Put(
         path: "/api/updatecourse/{id}",
         operationId: "updateCourse",
