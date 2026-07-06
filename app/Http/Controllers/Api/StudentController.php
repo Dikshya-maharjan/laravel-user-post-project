@@ -78,22 +78,26 @@ class StudentController extends Controller
         description: "Student created"
     )]
 
-    public function store(Request $request){
-        $request->validate([
-    'name' => 'required|string|max:255',
-  
-]);
-        //creates student
-        $student=Student::create([
-            'name'=>$request->name,
-        ]);
-        //assign the courses
-        $student->courses()->attach($request->course_ids);
-        return response()->json([
-            'message'=>'Student created successfully',
-            'students'=>$student->load('courses')
-        ]);
-    }
+    public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'course_ids' => 'required|array',
+        'course_ids.*' => 'exists:courses,id',
+    ]);
+
+    $student = Student::create([
+        'name' => $request->name,
+        'signup_id' => $request->user()->id,
+    ]);
+
+    $student->courses()->attach($request->course_ids);
+
+    return response()->json([
+        'message' => 'Student created successfully',
+        'student' => $student->load('courses'),
+    ], 201);
+}
     #[OA\Delete(
         path: "/api/delete/{id}",
         operationId: "deleteStudent",
@@ -167,7 +171,6 @@ class StudentController extends Controller
         $student->courses()->sync($request->course_ids);
         return response()->json([
             'message'=>'Student updated successfully',
-            'student'=>$student->load('course'),
-        ]);
+'student'=>$student->load('courses'),        ]);
     }
 }
