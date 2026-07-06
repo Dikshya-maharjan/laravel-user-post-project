@@ -7,7 +7,8 @@ use App\Models\Course;
 class Student extends Model
 {
     //
-    protected $fillable=['name'];
+    protected $fillable=['name'
+    ,'signup_id'];
     public function courses(){
         return $this->belongsToMany(Course::class,
         'course_student',
