@@ -26,6 +26,8 @@ class SignupController extends Controller
                 'password'=>Hash::make($request->password),//converting pw into hash code
     
             ]);
+            $signup->assignRole('student');
+
             Auth::login($signup);
             $request->session()->regenerate();
             return response()->json([
@@ -33,6 +35,7 @@ class SignupController extends Controller
                 'message'=>"User created successfully",
                 'user'=>$signup
             ],201);
+            
         }catch(ValidationException $e){
             return response()->json([
                 'success'=>false,
