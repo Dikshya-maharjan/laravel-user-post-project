@@ -10,6 +10,15 @@ class LoginController extends Controller
     //
     public function index(){
         return view('/login');
+        if (Auth::user()->hasRole('admin')) {
+    return redirect('/admin/dashboard');
+}
+if (Auth::user()->hasRole('admin')) {
+    return redirect('/liststudents');
+}
+
+return redirect('/dashboard');
+
     }
     public function login(Request $request){
         $request->validate([
