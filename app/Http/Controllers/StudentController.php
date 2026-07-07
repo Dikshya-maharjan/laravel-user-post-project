@@ -28,11 +28,12 @@ class StudentController extends Controller
     }
 
     // SHOW ALL STUDENTS
-    public function index()
-    {
-        $students = Student::with('courses')->get();
-        return view('student.index', compact('students'));
-    }
+ public function index()
+{
+    $students = Student::with('courses')->get();
+
+    return view('liststudents', compact('students'));
+}
    
 
     // EDIT FORM
