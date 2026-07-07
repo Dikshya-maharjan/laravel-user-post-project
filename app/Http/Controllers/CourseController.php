@@ -24,6 +24,31 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('course.index', compact('courses'));
+        return view('listcourses', compact('courses'));
     }
+    public function edit(Request $request,$id){
+        $courses=Course::findorFail($id);
+            return view('editcourse', compact('courses'));
+
+    }
+    public function update(Request $request, $id)
+{
+    $course = Course::findOrFail($id);
+
+    $course->update([
+        'name' => $request->name
+    ]);
+
+    return redirect('/listcourses');
+}
+
+
+public function destroy($id)
+{
+    $course = Course::findOrFail($id);
+
+    $course->delete();
+
+    return redirect('/listcourses');
+}
 }
