@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\Signup;
 
 class StudentController extends Controller
 {
@@ -30,7 +31,8 @@ class StudentController extends Controller
     // SHOW ALL STUDENTS
  public function index()
 {
-    $students = Student::with('courses')->get();
+
+    $students = Signup::role('student')->get();
 
     return view('liststudents', compact('students'));
 }
