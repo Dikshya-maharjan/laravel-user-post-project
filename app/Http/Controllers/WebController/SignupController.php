@@ -21,13 +21,14 @@ class SignupController extends Controller
               'name' => 'required|min:3',
                 'email' => 'required|email|unique:signups,email',
                 'password' => 'required|min:8|confirmed',
+                'role'=>'required|in:student,admin'
         ]);   
         $signup=Signup::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>Hash::make($request->password),
         ]);
-        $signup->assignRole('student');
+        $signup->assignRole($request->role);
 
         Auth::login($signup);//stores the user id in the session
         $request->session()->regenerate();
@@ -35,12 +36,13 @@ class SignupController extends Controller
     }
     public function showAssignRoles()
 {
-    $users = Signup::all();
-    $roles = Role::all();
+    $users = Signup::all();//fetch every user from signup table
+    $roles = Role::all();//fetches all roles from db
 
-    return view('assignroles', compact('users', 'roles'));
+    return view('assignroles', compact('users', 'roles'));//opens assignroles.blade.php
+    //compact creates array of users and roles
 }
-
+//this method runs after admin will submit the form
 public function assignRole(Request $request)
 {
     $request->validate([
@@ -50,7 +52,8 @@ public function assignRole(Request $request)
 
     $user = Signup::findOrFail($request->user_id);
 
-    $user->syncRoles([$request->role]);
+    $user->syncRoles([$request->role]);//spatie methods
+    //syncRoles replaces all the existing roles with the provided list
 
     return back()->with('success', 'Role assigned successfully.');
 }
