@@ -47,8 +47,10 @@ public function destroy($id)
 {
     $course = Course::findOrFail($id);
 
+    $course->student()->detach();
     $course->delete();
 
-    return redirect('/listcourses');
+    return redirect('/listcourses')
+            ->with('success', 'Course deleted successfully.');
 }
 }
