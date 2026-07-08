@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-</head>
-<body>
+@extends('layouts.app')
 
-<h2>Welcome {{ Auth::user()->name }}</h2>
+@section('title','Dashboard')
 
-<p>You are logged in.</p>
-<form action="/logout" method="POST">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
-</body>
-</html>
+@section('content')
+
+<h1>Dashboard</h1>
+<p></p>
+<p>Welcome {{ Auth::user()->name }}</p>
+
+@endsection
