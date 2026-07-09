@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Signup;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StudentController extends Controller
 {
@@ -71,4 +72,33 @@ class StudentController extends Controller
 
         return redirect('/students');
     }
+public function downloadPDF()
+{
+    $students = Student::with('courses')->get();
+
+    $pdf = Pdf::loadView('report', compact('students'));
+
+    return $pdf->download('students.pdf');
+}
+public function showAssignCourse()
+{
+    $students = Student::all();
+    $courses = Course::all();
+
+    return view('assigncourse', compact('students', 'courses'));
+}
+
+public function assignCourse(Request $request)
+{
+    $request->validate([
+        'student_id' => 'required|exists:students,id',
+        'course_ids' => 'required|array',
+    ]);
+
+    $student = Student::findOrFail($request->student_id);
+
+    $student->courses()->sync($request->course_ids);
+
+    return redirect()->back()->with('success', 'Courses assigned successfully.');
+}
 }
